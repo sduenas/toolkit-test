@@ -27,6 +27,9 @@ jobs:
       run: |
         curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
         python get-poetry.py
+        cat $HOME/.profile
+        cat $HOME/.bash_profile
+        file $HOME/.poetry/bin/poetry
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
