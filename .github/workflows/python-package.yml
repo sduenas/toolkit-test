@@ -42,4 +42,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Build package
       run: |
+        cat $HOME/.profile
+        cat $HOME/.bash_profile
+        file $HOME/.poetry/bin/poetry
         poetry build
