@@ -46,7 +46,7 @@ jobs:
 
     - name: Publish package
       env:
-        TESTPYPI_TOKEN: ${{ secrets.TESTPYPI_KEY }}
+        TESTPYPI_KEY: ${{ secrets.TESTPYPI_KEY }}
       run: |
         poetry config repositories.testpypi https://test.pypi.org/legacy/
         poetry config pypi-token.testpypi "$TESTPYPI_KEY"
