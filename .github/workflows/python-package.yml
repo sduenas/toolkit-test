@@ -50,5 +50,5 @@ jobs:
       run: |
         poetry config repositories.testpypi https://test.pypi.org/legacy/
         poetry config pypi-token.testpypi "$TESTPYPI_KEY"
-        poetry publish -vvv -r testpypi
+        poetry publish -n -vvv -r testpypi
         
