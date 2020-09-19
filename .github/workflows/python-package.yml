@@ -6,9 +6,8 @@ name: Publish Python package
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - '*'
 
 jobs:
   publish:
