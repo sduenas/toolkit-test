@@ -19,6 +19,10 @@ jobs:
         python-version: [3.6]
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
       - id: setup
         uses: sduenas/poetry-python@v1
         with:
