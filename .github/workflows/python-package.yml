@@ -4,10 +4,12 @@
 
 name: Publish Python package
 
-on:
-  push:
-    tags:
-      - '*'
+# on:
+#  push:
+#    tags:
+#      - '*'
+
+on: [push]
 
 jobs:
   publish:
@@ -16,32 +18,23 @@ jobs:
       matrix:
         python-version: [3.6]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Setup Python ${{ matrix.python-version }} dependencies
-      run: |
-        pip install --upgrade pip
-        pip install wheel
-    - name: Setup Poetry ${{ matrix.python-version }}
-      run: |
-        curl -O -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
-        python get-poetry.py -y --preview
-        echo "::set-env name=PATH::$HOME/.poetry/bin:$PATH"      
-    - name: Build package
-      run: |
-        poetry build
-    - name: Test package
-      run: |
-        PACKAGE_NAME=`(cd dist && ls *whl | cut -f 1 -d "-")`
-        pip install --pre --find-links ./dist/ $PACKAGE_NAME
-        cd tests && python run_tests.py
-    - name: Publish package
-      env:
-        TESTPYPI_KEY: ${{ secrets.TESTPYPI_KEY }}
-      run: |
-        poetry config repositories.testpypi https://test.pypi.org/legacy/
-        poetry config pypi-token.testpypi "$TESTPYPI_KEY"
-        poetry publish -n -vvv -r testpypi
+      - uses: actions/checkout@v2
+      - id: setup
+        uses: sduenas/poetry-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Build package
+        run: |
+          poetry build
+      - name: Test package
+        run: |
+          PACKAGE_NAME=`(cd dist && ls *whl | cut -f 1 -d "-")`
+          pip install --pre --find-links ./dist/ $PACKAGE_NAME
+          cd tests && python run_tests.py
+      - name: Publish package
+        env:
+          TESTPYPI_KEY: ${{ secrets.TESTPYPI_KEY }}
+        run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+          poetry config pypi-token.testpypi "$TESTPYPI_KEY"
+          poetry publish -n -vvv -r testpypi
