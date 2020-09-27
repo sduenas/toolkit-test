@@ -8,7 +8,6 @@ name: Publish Python package
 #  push:
 #    tags:
 #      - '*'
-
 on: [push]
 
 jobs:
